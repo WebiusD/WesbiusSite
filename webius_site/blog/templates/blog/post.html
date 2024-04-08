@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %}
+
+{% block body %}
+    <h1 class="post-title">
+        {% block posttitle %}
+            {{ article.title }}
+        {% endblock %}
+    </h1>
+
+    <div class="post-main">
+        {% block postmain %}
+            <!--With safe we tell Django to not escape html-->
+            {{ article.content | safe }}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="footer-nav row justify-content-center">
+        <a class="col-4 text-left" href="/article/{{ prev.id }}">Previous: {{ prev.title }}</a>
+
+        <a class="col-4 text-right" href="/article/{{ next.id }}">Next: {{ next.title }}</a>
+    </div>
+{% endblock %} 

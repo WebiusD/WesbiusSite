@@ -1,0 +1,33 @@
+.site{
+    background-color: rgb(248, 240, 222);
+}
+
+.body{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    max-width: 850px;
+}
+
+.post-title{
+    text-align: center;
+    /* padding-bottom: 30px; */
+}
+
+.post-main{
+    text-align: left;
+}
+
+footer{
+    background-color: white;
+    /* padding-top: 10px; */
+}
+
+footer .footer-nav {
+    background-color: rgb(236, 235, 235);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.base-footer{
+    padding-top: 20px;
+}
