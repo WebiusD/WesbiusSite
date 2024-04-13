@@ -8,6 +8,15 @@
     max-width: 850px;
 }
 
+.wide-body {
+    margin: auto;
+    width: 95%;
+}
+
+.write-area {
+    min-height: 75vh;
+}
+
 .post-title{
     text-align: center;
     /* padding-bottom: 30px; */
@@ -31,3 +40,5 @@ footer .footer-nav {
 .base-footer{
     padding-top: 20px;
 }
+
+

@@ -1,0 +1,95 @@
+{% extends "blog/base.html" %}
+
+{% block body %}
+<div class="wide-body">
+    <!-- Article form -->
+    <form method="post" action="{% url 'create-article' %}">
+        {% csrf_token %}
+
+        <!-- Header -->
+        <div class="row" style="padding: 10px;">
+            <div class="col-md-2">
+                <h3>New Article:</h3>
+            </div>
+
+            <div class="col-md-4">
+                <input type="text" name="title" placeholder="Title" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <textarea name="content" id="markdown-input" rows="10" class="form-control write-area"></textarea>
+            </div>
+
+            <div id="markdown-preview"class="col-md-6 write-area"></div>
+
+            <!-- Preview and Submit Buttons -->
+            <div class="fixed-bottom text-center p-3 bg-light">
+                <button type="button" id="preview-button" class="btn btn-primary mr-2">Preview</button>
+                <button type="submit" id="submit-button" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        console.log(`running scipt block`);
+
+        // Initializte Highlight-JS
+        hljs.highlightAll();
+
+        // Initialize MathJax
+        MathJax = {
+            loader: {
+                load: ['[tex]/color','[tex]/cancel']
+            },
+            tex: {
+                packages: {'[+]': ['cancel', 'color']},
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+        };
+
+        // Function to update markdown-preview textarea
+        function updatePreview() {
+            console.log(`Showing preview`);
+
+            // Get the markdown input textarea content
+            const markdownInput = document.getElementById('markdown-input').value;
+
+              // Convert Markdown image syntax to HTML img tags
+            // const htmlContent = markdownInput.replace(
+            //     /!\[([^\]]+)\]\(([^)]+)\)/g,
+            //     '<img src="$2" alt="$1">'
+            // );
+
+            // // Sanitize the converted content
+            // const sanitizedContent = DOMPurify.sanitize(htmlContent, {
+            //     ALLOWED_TAGS: ['img', 'a'],
+            //     ALLOWED_ATTR: ['src', 'alt']
+            // });
+            
+            // copy it to the markdown-preview area:
+            document.getElementById('markdown-preview').innerHTML = markdownInput; //markdownInput.value;
+
+            // apply highlighting to each code block:
+            document.querySelectorAll('#markdown-preview code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+
+            if (MathJax) {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, "markdown-preview"]);
+            } else {
+                console.log(`MathJax is undefined`);
+            }
+        }
+
+        // Function to update preview whenever input changes
+        document.getElementById('preview-button').addEventListener('click', updatePreview);
+    </script>
+{% endblock %}

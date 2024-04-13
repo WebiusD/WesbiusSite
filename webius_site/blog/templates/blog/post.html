@@ -1,6 +1,7 @@
-{% extends "blog/base.html" %}
+{% extends "blog/base_footer.html" %}
 
 {% block body %}
+<div class="container body">
     <h1 class="post-title">
         {% block posttitle %}
             {{ article.title }}
@@ -13,6 +14,7 @@
             {{ article.content | safe }}
         {% endblock %}
     </div>
+</div>
 {% endblock %}
 
 {% block footer %}
@@ -21,4 +23,6 @@
 
         <a class="col-4 text-right" href="/article/{{ next.id }}">Next: {{ next.title }}</a>
     </div>
+
+    {{ block.super }}
 {% endblock %} 
