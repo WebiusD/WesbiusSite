@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Article
 import json
 
-from .util import get_prev_next_id, get_context
+from .util import get_prev_next_id, get_context, convert_markdown
 import code
 # Create your views here.
 
@@ -41,9 +41,29 @@ def create_article(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
 
-        article = Article(title=title, content=content)
+        converted_content = convert_markdown(content)
+
+        article = Article(title=title, content=converted_content)
         article.save()
 
         return HttpResponse('Article sumitted successfully')
     else:
         return HttpResponseNotAllowed(['POST'])
+
+@login_required
+def convert(request):
+    print("Got conversion request")
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            markdown = data.get('markdown')
+
+            print("Original markdown: ", markdown)
+            conversion_result = convert_markdown(markdown)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    data = {'converted': conversion_result}
+    return JsonResponse(data)

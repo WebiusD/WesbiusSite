@@ -37,14 +37,21 @@
     <!-- HTML sanitizer -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
 
-    <title>Webius</title>
+    <title>BinaryFever</title>
 </head>
 
 <body class="site">
+    <div class="thermometer">
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="circle"></div>
+    </div>
+
     <!--NAVBAR-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav">
-            <a class="navbar-brand" href="/">@Webius</a>
+            <a class="navbar-brand" href="/">@BinaryFever</a>
 
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
@@ -67,6 +74,11 @@
     </nav>
     <!--NAVBAR-->
 
+    <!-- Progress BAR -->
+    <!-- <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div> -->
+    <!-- Progress BAR -->
 
     {% block body %}
     {% endblock %}
@@ -78,6 +90,19 @@
     {% block footer %}
     {% endblock %}
     </footer>
+
+
+    <script>
+        document.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+
+            const scrollPercent = (scrollTop / (scrollHeight - clientHeight)) * 100;
+            
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        });
+    </script>
 
 </body>
 </html>
