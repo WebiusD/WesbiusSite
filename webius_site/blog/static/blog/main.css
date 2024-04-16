@@ -2,10 +2,17 @@
     background-color: rgb(248, 240, 222);
 }
 
+.fever-navbar {
+    min-height: 60px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
 .body{
+    padding-left: 30px;
+    padding-right: 30px;
     padding-top: 40px;
     padding-bottom: 40px;
-    max-width: 850px;
+    max-width: 950px;
 }
 
 .wide-body {
@@ -41,20 +48,13 @@ footer .footer-nav {
     padding-top: 20px;
 }
 
-/* .thermometer {
-    position: relative;
-    height: 60px; /* Adjust the height as needed 
-    width: 50px; /* Width of the thermometer 
-    margin: 50px auto; /* Centering the thermometer 
-} */
-
 .circle {
-    width: 60px; /* Diameter of the circle */
-    height: 60px;
-    background-color: #db0000;
-    border-bottom-right-radius: 60px; /* Quarter-circle on the top-left */
+    width: 50px; /* Diameter of the circle */
+    height: 50px;
+    background-color: #db000099; /* rgba(255, 255, 255, 0.6);*/
+    border-bottom-right-radius: 50px; /* Quarter-circle on the top-left */
     position: fixed;
-    top: 0;
+    top: 10px;
     left: 0;
     z-index: 0;
      /* Fixed to the left */
@@ -72,8 +72,8 @@ footer .footer-nav {
 }
 
 .progress-bar {
-    background-color: #db0000;
+    background-color: #db000099;
     height: 100%;
-    min-width: 59px;
+    min-width: 50px;
     transition: width 0.2s ease-in-out;
 }

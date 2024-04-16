@@ -19,9 +19,9 @@
 
 {% block footer %}
     <div class="footer-nav row justify-content-center">
-        <a class="col-4 text-left" href="/article/{{ prev.id }}">Previous: {{ prev.title }}</a>
+        <a class="col-4 text-left" href="/article/{{ prev.slug }}">Previous: {{ prev.title }}</a>
 
-        <a class="col-4 text-right" href="/article/{{ next.id }}">Next: {{ next.title }}</a>
+        <a class="col-4 text-right" href="/article/{{ next.slug }}">Next: {{ next.title }}</a>
     </div>
 
     {{ block.super }}

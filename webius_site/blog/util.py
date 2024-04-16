@@ -18,13 +18,19 @@ def get_prev_next_id(current_id):
     
     return prev_id, current_id, next_id
 
-
 def get_context(prev_id, current_id, next_id):
     return {
         "prev": Article.objects.filter(id=prev_id).first(),
         "article": Article.objects.filter(id=current_id).first(),
         "next": Article.objects.filter(id=next_id).first()
     }
+
+def get_prev_next_article_by_slug(this_slug):
+    this_article= Article.objects.filter(slug=this_slug).first()
+
+    prev, id, next_id = get_prev_next_id(this_article.id)
+
+    return get_context(prev, id, next_id)
     
 def convert_markdown(orig):
     pattern = r'```(.*?)\n(.*?)\n```'

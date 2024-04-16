@@ -41,15 +41,16 @@
 </head>
 
 <body class="site">
-    <div class="thermometer">
+
+    <!-- PROGRESSBAR -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <div class="circle"></div>
-    </div>
+    <!-- PROGRESSBAR -->
 
     <!--NAVBAR-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light fever-navbar">
         <ul class="navbar-nav">
             <a class="navbar-brand" href="/">@BinaryFever</a>
 
@@ -74,11 +75,14 @@
     </nav>
     <!--NAVBAR-->
 
-    <!-- Progress BAR -->
-    <!-- <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div> -->
-    <!-- Progress BAR -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
 
     {% block body %}
     {% endblock %}

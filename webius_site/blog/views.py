@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import redirect
 from .models import Article
 import json
 
-from .util import get_prev_next_id, get_context, convert_markdown
+from .util import get_prev_next_id, get_context, get_prev_next_article_by_slug, convert_markdown
 import code
 # Create your views here.
 
@@ -19,11 +21,10 @@ def articles(request):
     # list all articles
     return render(request, 'blog/articles.html', {"articles" : Article.objects.all().order_by('-date')})
 
-def article(request, id):
-   
-    prev_id, current_id, next_id = get_prev_next_id(id)
+def article(request, slug):
+    context = get_prev_next_article_by_slug(slug)
 
-    return render(request, 'blog/post.html', context=get_context(prev_id, current_id, next_id))
+    return render(request, 'blog/post.html', context=context)
      #, "next_id": next_id, "next_title": next_title, "prev_id": prev_id, "prev_title": prev_title})
 
 def about(request):
@@ -46,7 +47,9 @@ def create_article(request):
         article = Article(title=title, content=converted_content)
         article.save()
 
-        return HttpResponse('Article sumitted successfully')
+         # Display success message:
+        messages.success(request, 'Article submitted successfully', extra_tags='alert-success')
+        return redirect('blog-article', slug=article.slug)  # Redirect to the article detail page
     else:
         return HttpResponseNotAllowed(['POST'])
 
