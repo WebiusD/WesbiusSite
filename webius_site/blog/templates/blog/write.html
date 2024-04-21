@@ -3,23 +3,23 @@
 {% block body %}
 <div class="wide-body">
     <!-- Article form -->
-    <form method="post" action="{% url 'create-article' %}">
+    <form method="post" action="{{form_action}}">
         {% csrf_token %}
 
         <!-- Header -->
         <div class="row" style="padding: 10px;">
             <div class="col-md-2">
-                <h3>New Article:</h3>
+                <h3>Title</h3>
             </div>
 
             <div class="col-md-4">
-                <input type="text" name="title" placeholder="Title" class="form-control">
+                <input type="text" name="title" value="{{title}}" placeholder="Title" class="form-control">
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <textarea name="content" id="markdown-input" rows="10" class="form-control write-area"></textarea>
+                <textarea name="content" id="markdown-input" rows="10" class="form-control write-area">{{content}}</textarea>
             </div>
 
             <div id="markdown-preview"class="col-md-6 write-area"></div>
@@ -103,13 +103,13 @@
         }
 
         // Function to update markdown-preview textarea
-        function updatePreview() {
+        async function updatePreview() {
             console.log(`Showing preview`);
 
             // Get the markdown input textarea content
             const markdownInput = document.getElementById('markdown-input').value;
 
-            convert(markdownInput).then(result => {
+            await convert(markdownInput).then(result => {
                 const convertedInput = result.converted;
                 console.log(`Converted input: ${convertedInput}`);
                 
@@ -124,6 +124,7 @@
             });
 
             if (MathJax) {
+                console.log(`Queing mathjax typeset`);
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, "markdown-preview"]);
             } else {
                 console.log(`MathJax is undefined`);

@@ -1,2 +1,5 @@
 context.txt
 django_commands.md
+basis_article.txt
+.*
+!.gitignore
