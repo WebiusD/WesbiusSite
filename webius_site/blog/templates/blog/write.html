@@ -3,26 +3,26 @@
 {% block body %}
 <div class="wide-body">
     <!-- Article form -->
-    <form method="post" action="{% url 'create-article' %}">
+    <form method="post" action="{{form_action}}">
         {% csrf_token %}
 
         <!-- Header -->
         <div class="row" style="padding: 10px;">
             <div class="col-md-2">
-                <h3>New Article:</h3>
+                <h3>Title</h3>
             </div>
 
             <div class="col-md-4">
-                <input type="text" name="title" placeholder="Title" class="form-control">
+                <input type="text" name="title" value="{{title}}" placeholder="Title" class="form-control">
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <textarea name="content" id="markdown-input" rows="10" class="form-control write-area"></textarea>
+                <textarea name="content" id="markdown-input" rows="10" class="form-control write-area">{{content}}</textarea>
             </div>
 
-            <div id="markdown-preview"class="col-md-6 write-area"></div>
+            <div id="markdown-preview"class="col-md-6" style="max-height: 75vh; overflow-y: auto;"></div>
 
             <!-- Preview and Submit Buttons -->
             <div class="fixed-bottom text-center p-3 bg-light">
@@ -49,9 +49,10 @@
             loader: {
                 load: ['[tex]/color','[tex]/cancel']
             },
-            tex: {
+            tex2jax: {
                 packages: {'[+]': ['cancel', 'color']},
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                processEscapes: true,
             },
         };
 
@@ -72,7 +73,7 @@
 
         // Function to convert my custom markdown into markdown known by highlight-js and mathjax:
         async function convert(markdown) {
-            const csrftoken = getCookie('csrftoken'); 
+            const csrftoken = getCookie('csrftoken');
 
             data = {
                 markdown: markdown,
@@ -80,7 +81,8 @@
 
             // send a post request with the markdown content to the convert endpoint
             try {
-                const response = await fetch('http://127.0.0.1:8000/convert', {
+                const endpoint = 'https://www.webius.site/convert';
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -103,16 +105,16 @@
         }
 
         // Function to update markdown-preview textarea
-        function updatePreview() {
+        async function updatePreview() {
             console.log(`Showing preview`);
 
             // Get the markdown input textarea content
             const markdownInput = document.getElementById('markdown-input').value;
 
-            convert(markdownInput).then(result => {
+            await convert(markdownInput).then(result => {
                 const convertedInput = result.converted;
                 console.log(`Converted input: ${convertedInput}`);
-                
+
                 // copy it to the markdown-preview area:
                 document.getElementById('markdown-preview').innerHTML = convertedInput;
             });
@@ -124,6 +126,7 @@
             });
 
             if (MathJax) {
+                console.log(`Queing mathjax typeset`);
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, "markdown-preview"]);
             } else {
                 console.log(`MathJax is undefined`);

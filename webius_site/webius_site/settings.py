@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(@40$(tuqz5o+j-04_1!sy5zbyu*1^rj=2if@nb^ifk3k((ig1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    '127.0.0.1', 
     'webius.pythonanywhere.com',
     'www.webius.site',
 ]
