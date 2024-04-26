@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # include urls from the blog app:
-    path('', include('blog.urls'))
+    # include urls from the blog app directly at root:
+    path('', include('blog.urls')),
+    # include urls from voltaire under voltaire:
+    path('voltaire/', include('voltaire.urls')),
 ]
