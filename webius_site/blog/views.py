@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -147,3 +147,6 @@ def convert(request):
 
     data = {'converted': conversion_result}
     return JsonResponse(data)
+
+def chat_gpt(request):
+    return HttpResponseRedirect('https://chatgpt.com/')
